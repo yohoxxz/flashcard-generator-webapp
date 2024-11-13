@@ -9,7 +9,6 @@ A web application that converts text or a PDF document into interactive flashcar
 - **Interactive Interface**: Smooth, intuitive flashcard viewer with animations
 - **Keyboard Shortcuts**: Easy navigation using arrow keys and spacebar
 - **Progress Tracking**: Visual progress bar and card counter
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
 
 ## ⌨️ Keyboard Shortcuts
 
