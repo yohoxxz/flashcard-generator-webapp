@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flashcards</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #333;
+            z-index: 1000;
+        }
+
+        #progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.3s ease;
+        }
+
+        #card-counter {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(45, 45, 45, 0.9);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            z-index: 1000;
+        }
+
+        #flashcards {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flashcard { 
+            position: absolute;
+            width: 90%;
+            max-width: 600px;
+            min-height: 300px;
+            background: linear-gradient(145deg, #2d2d2d, #2a2a2a);
+            border: 1px solid #3d3d3d;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .flashcard.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .flashcard.flipped {
+            transform: rotateX(180deg);
+        }
+
+        .question, 
+        .answer { 
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .question {
+            font-weight: 600;
+            font-size: 1.8em;
+            color: #fff;
+            transform: rotateX(0deg);
+        }
+
+        .answer { 
+            color: #d4d4d4;
+            font-size: 1.4em;
+            letter-spacing: 0.2px;
+            transform: rotateX(180deg);
+        }
+
+        .navigation {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .navigation button {
+            padding: 12px 24px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .navigation button:hover:not(:disabled) {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .navigation button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        #shortcuts-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(45, 45, 45, 0.9);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="progress-bar">
+        <div id="progress-fill"></div>
+    </div>
+    <div id="card-counter"></div>
+    <div id="flashcards"></div>
+    <div class="navigation">
+        <button id="prevBtn" onclick="previousCard()">← Previous</button>
+        <button id="nextBtn" onclick="nextCard()">Next →</button>
+    </div>
+    <div id="shortcuts-info">
+        Shortcuts: ← Previous | → Next | Space Toggle
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const flashcardsData = JSON.parse(decodeURIComponent(urlParams.get('cards')));
+        let currentCard = 0;
+        
+        const flashcardsContainer = document.getElementById('flashcards');
+        
+        // Create flashcard elements
+        flashcardsData.forEach(card => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'flashcard';
+            cardElement.onclick = toggleAnswer;
+            cardElement.innerHTML = `
+                <div class="question">${card.question}</div>
+                <div class="answer">${card.answer}</div>
+            `;
+            flashcardsContainer.appendChild(cardElement);
+        });
+
+        const cards = document.querySelectorAll('.flashcard');
+
+        function showCard(index) {
+            cards.forEach((card, i) => {
+                card.classList.remove('active');
+                if (i === index) {
+                    card.classList.add('active');
+                }
+            });
+            updateNavButtons();
+            updateProgress();
+        }
+
+        function nextCard() {
+            if (currentCard < cards.length - 1) {
+                currentCard++;
+                showCard(currentCard);
+            }
+        }
+
+        function previousCard() {
+            if (currentCard > 0) {
+                currentCard--;
+                showCard(currentCard);
+            }
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentCard === 0;
+            document.getElementById('nextBtn').disabled = currentCard === cards.length - 1;
+        }
+
+        function updateProgress() {
+            const progress = ((currentCard + 1) / cards.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('card-counter').textContent = `Card ${currentCard + 1} of ${cards.length}`;
+        }
+
+        function toggleAnswer(event) {
+            const card = event.currentTarget;
+            card.classList.toggle('flipped');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowLeft' && currentCard > 0) {
+                previousCard();
+            }
+            if (e.code === 'ArrowRight' && currentCard < cards.length - 1) {
+                nextCard();
+            }
+            if (e.code === 'Space') {
+                e.preventDefault();
+                toggleAnswer({ currentTarget: cards[currentCard] });
+            }
+        });
+
+        // Initialize
+        showCard(0);
+    </script>
+</body>
+</html> 

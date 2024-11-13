@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flashcard Generator</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="api-key-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>OpenAI API Key Required</h2>
+      </div>
+      <div class="modal-body">
+        <p class="api-key-help">
+          To generate flashcards, you need an OpenAI API key. 
+          <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">Get one here</a>
+        </p>
+        <div class="api-key-container">
+          <input 
+            type="password" 
+            id="api-key-input" 
+            placeholder="Enter your OpenAI API key"
+            autocomplete="off"
+          >
+          <button id="save-api-key">Save Key</button>
+        </div>
+        <div id="api-key-status"></div>
+      </div>
+    </div>
+  </div>
+  <h1>Flashcard Generator</h1>
+  <div id="input-section">
+    <div class="input-type-selector">
+      <button id="text-input-button" class="active">Text Input</button>
+      <button id="pdf-upload-button">PDF Upload</button>
+    </div>
+    <div id="text-input-section">
+      <textarea id="text-input" placeholder="Enter text here..." rows="10"></textarea>
+    </div>
+    <div id="pdf-upload-section" style="display: none;">
+      <div class="file-input-wrapper">
+        <input type="file" id="pdf-input" accept=".pdf">
+        <label for="pdf-input" class="file-input-label">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+          Choose PDF File
+        </label>
+        <div class="file-name"></div>
+      </div>
+    </div>
+    <button id="generate-button">Generate Flashcards</button>
+  </div>
+  <div id="flashcards-container" style="display: none;">
+    <!-- Flashcards will be displayed here -->
+  </div>
+  <div id="navigation" style="display: none;">
+    <button id="prev-button">← Previous</button>
+    <span id="card-counter">Card 1 of 1</span>
+    <button id="next-button">Next →</button>
+  </div>
+  <div id="shortcuts-info">
+    Shortcuts: ← Previous | → Next | Space Toggle
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html> 

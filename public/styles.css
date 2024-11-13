@@ -1,0 +1,465 @@
+/* Base styles */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #1a1a1a;
+  color: #fff;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin: 20px 0 30px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+/* Input Section */
+#input-section {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.input-type-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.input-type-selector button {
+  padding: 10px 20px;
+  font-size: 1em;
+  margin: 0 10px;
+  border: none;
+  background-color: #2a2a2a;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.input-type-selector button.active,
+.input-type-selector button:hover {
+  background-color: #4CAF50;
+}
+
+#text-input,
+#pdf-input {
+  width: 100%;
+  max-width: 800px;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #3d3d3d;
+  border-radius: 5px;
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+#generate-button {
+  margin-top: 20px;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#generate-button:hover:not(:disabled) {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+#generate-button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+/* Flashcards */
+#flashcards-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 400px;
+  margin: 40px auto;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flashcard {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flashcard.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.flashcard.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.question,
+.answer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.question {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #fff;
+}
+
+.answer {
+  transform: rotateY(180deg);
+  font-size: 1.4em;
+  color: #d4d4d4;
+}
+
+#navigation {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(42, 42, 42, 0.9);
+  padding: 15px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  z-index: 100;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+#navigation button {
+  padding: 12px 24px;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 8px;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+#navigation button:hover:not(:disabled) {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#navigation button:disabled {
+  background: #666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#card-counter {
+  font-size: 1.2em;
+  color: #fff;
+}
+
+#shortcuts-info {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9em;
+  color: #aaa;
+  z-index: 90;
+  background: rgba(26, 26, 26, 0.9);
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
+/* API Key Section */
+#api-key-section {
+  background-color: #2a2a2a;
+  padding: 15px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.api-key-container {
+  display: flex;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#api-key-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #3d3d3d;
+  border-radius: 6px;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+#api-key-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+#api-key-input::placeholder {
+  color: #666;
+}
+
+#save-api-key {
+  padding: 12px 20px;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#save-api-key:hover {
+  background-color: #45a049;
+  transform: translateY(-1px);
+}
+
+#api-key-status {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.9em;
+  min-height: 20px;
+}
+
+.status-success {
+  color: #4CAF50;
+}
+
+.status-error {
+  color: #f44336;
+}
+
+/* Add these styles for the API key help text and link */
+.api-key-help {
+  margin-bottom: 15px;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.api-key-help a {
+  color: #4CAF50;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.api-key-help a:hover {
+  color: #45a049;
+  text-decoration: underline;
+}
+
+/* Back button */
+#back-to-input {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+#back-to-input:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+/* Add transition for smooth layout changes */
+.flashcard, #navigation, #back-to-input {
+  transition: all 0.3s ease;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+}
+
+.modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: #2a2a2a;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transform: translateY(-20px);
+    animation: slideIn 0.3s ease forwards;
+}
+
+.modal-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.modal-body {
+    margin-bottom: 25px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Add this style to prevent scrolling when modal is active */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 15px; /* Prevent layout shift when scrollbar disappears */
+}
+
+/* Add these styles for the file input */
+.file-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+#pdf-input {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    background-color: #2a2a2a;
+    border: 2px dashed #3d3d3d;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1em;
+    color: #fff;
+}
+
+.file-input-label:hover {
+    background-color: #333;
+    border-color: #4CAF50;
+}
+
+.file-input-label svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.file-name {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #aaa;
+    text-align: center;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 6px;
+    border: 3px solid #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #45a049;
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #4CAF50 #1a1a1a;
+}
+
+/* Style the textarea */
+#text-input {
+    resize: vertical;
+    min-height: 200px;
+    max-height: 600px;
+    line-height: 1.5;
+    padding: 15px;
+} 
