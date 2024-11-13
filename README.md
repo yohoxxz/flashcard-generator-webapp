@@ -5,7 +5,7 @@ A web application that converts text or a PDF document into interactive flashcar
 ## 🚀 Features
 
 - **PDF Processing**: Upload and extract text from PDF documents
-- **AI-Powered**: Automatically generates relevant flashcards using GPT-4
+- **AI-Powered**: Automatically generates relevant flashcards using GPT-4o-mini
 - **Interactive Interface**: Smooth, intuitive flashcard viewer with animations
 - **Keyboard Shortcuts**: Easy navigation using arrow keys and spacebar
 - **Progress Tracking**: Visual progress bar and card counter
