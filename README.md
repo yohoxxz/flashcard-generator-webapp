@@ -1,6 +1,6 @@
-# PDF to Flashcards Converter
+# Flashcards Generator
 
-A web application that converts PDF documents into interactive flashcards using AI. Perfect for students, educators, and anyone looking to enhance their learning experience.
+A web application that converts text or a PDF document into interactive flashcards using AI. Perfect for students, educators, and anyone looking to enhance their memorization experience.
 
 ## 🚀 Features
 
@@ -26,7 +26,7 @@ A web application that converts PDF documents into interactive flashcards using 
 
 ## 🔧 How to use:
 
-1. Visit: [the website](https://flashcard-generator-webapp.netlify.app/)
+1. Visit [the website](https://flashcard-generator-webapp.netlify.app/)
 2. Upload your text or a PDF file with text.
 3. Wait for the flashcards to be generated (they will automatically open in a new tab when done)
 4. Use the arrow keys to navigate through the flashcards
